@@ -1,0 +1,14 @@
+pandas 
+numpy 
+pillow 
+requests 
+matplotlib 
+seaborn 
+plotly 
+pytest 
+scikit-learn
+torch
+tensorflow
+transformers
+openai
+python-dotenv 
