@@ -5,8 +5,6 @@ Embeddings/
 Embeddings_test/
 
 # Large model files
-*.h5
-*.hdf5
 *.pb
 
 # Python
