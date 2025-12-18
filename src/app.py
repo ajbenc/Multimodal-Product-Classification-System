@@ -44,7 +44,7 @@ with st.sidebar:
     
     st.markdown("---")
     st.markdown("""
-    **👨‍💻 Developer:** Julian Bencina  
+    **👨‍💻 Developer:** Andres Benavides  
     **🔗 GitHub:** [@ajbenc](https://github.com/ajbenc)
     """)
 
@@ -131,9 +131,11 @@ if dataset is not None:
                 if os.path.exists(image_path):
                     product_image = Image.open(image_path)
                     st.image(product_image, caption=selected_product['name'], use_container_width=True)
+                    st.caption(f"📂 Path: {image_path}")
                 else:
-                    st.info("📷 Image file not found - Classification will use text description only")
-                    st.markdown("*For deployment: Images are not included in the repository due to size constraints. The model can still classify using product descriptions.*")
+                    st.info("📷 **Text-Only Classification Mode** - Showcasing 94.16% accuracy NLP model")
+                    st.caption(f"📂 Expected path: {image_path}")
+                    st.markdown("*Images not included in deployment for size optimization. Full demo with images available locally.*")
                     product_image = None
             else:
                 st.warning("No image path available for this product")
