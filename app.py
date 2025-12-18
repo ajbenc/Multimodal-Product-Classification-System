@@ -77,9 +77,16 @@ st.subheader("🎯 Select a Product to Classify")
 dataset = load_dataset()
 
 if dataset is not None:
-    # Get unique categories
+    # Get unique categories and create user-friendly sequential names
     categories = sorted(dataset['class_id'].unique())
-    category_names = {cat: f"Category {cat}" for cat in categories}
+    
+    # Create simple sequential category names (Category 1, Category 2, etc.)
+    category_names = {cat: f"Category {idx + 1}" for idx, cat in enumerate(categories)}
+    
+    # Add product count for context
+    for cat in categories:
+        count = len(dataset[dataset['class_id'] == cat])
+        category_names[cat] = f"Category {categories.index(cat) + 1} ({count} products)"
     
     col1, col2 = st.columns([1, 2])
     
