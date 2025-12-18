@@ -3,8 +3,8 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 import pandas as pd
-from src.vision_embeddings_tf import FoundationalCVModel, load_and_preprocess_image
-from src.nlp_models import HuggingFaceEmbeddings
+from vision_embeddings_tf import FoundationalCVModel, load_and_preprocess_image
+from nlp_models import HuggingFaceEmbeddings
 import warnings
 warnings.filterwarnings('ignore')
 
