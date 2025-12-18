@@ -3,10 +3,17 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 import pandas as pd
-from vision_embeddings_tf import FoundationalCVModel, load_and_preprocess_image
 from nlp_models import HuggingFaceEmbeddings
 import warnings
 warnings.filterwarnings('ignore')
+
+# Lazy import for vision model (only when needed)
+def get_vision_model():
+    try:
+        from vision_embeddings_tf import FoundationalCVModel, load_and_preprocess_image
+        return FoundationalCVModel, load_and_preprocess_image
+    except:
+        return None, None
 
 # Page config
 st.set_page_config(
@@ -181,8 +188,14 @@ else:
 def load_models():
     with st.spinner("Loading AI models... (this may take a minute on first run)"):
         try:
-            # Load vision model
-            vision_model = FoundationalCVModel(backbone='resnet50', mode='eval')
+            # Try to load vision model (may fail on deployment)
+            vision_model = None
+            FoundationalCVModel, _ = get_vision_model()
+            if FoundationalCVModel:
+                try:
+                    vision_model = FoundationalCVModel(backbone='resnet50', mode='eval')
+                except:
+                    st.sidebar.warning("⚠️ Vision model not available - text-only mode")
             
             # Load NLP model
             nlp_model = HuggingFaceEmbeddings('sentence-transformers/all-MiniLM-L6-v2')
@@ -214,7 +227,7 @@ CATEGORIES = load_categories()
 def predict_product(image_data, text_data, vision_model, nlp_model, classifier):
     try:
         # Get image embeddings
-        if image_data is not None:
+        if image_data is not None and vision_model is not None:
             img_array = np.array(image_data.resize((224, 224))) / 255.0
             img_array = np.expand_dims(img_array, axis=0)
             image_embeddings = vision_model.predict(img_array)
